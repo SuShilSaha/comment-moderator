@@ -1,0 +1,13 @@
+# =============  SERVER    ===============
+server:
+  port: 8086
+  servlet.contextPath: /moderation-api
+
+black.listed: qwe,black,blocked
+
+swagger.enabled: true
+
+# ===========  LOGGING CONFIG  ============
+logging:
+  level:
+    com.sushil.moderator: DEBUG
