@@ -29,18 +29,14 @@ public class BlockedWordUtil {
     @PostConstruct
     public void init() {
         try {
-            int counter = 0;
-
             String[] content;
 
             content = blockedWords.split(",");
             for (int i =0; i< content.length; i++) {
-                counter++;
-
                 blockedWordSet.add(content[i].replaceAll(" ", ""));
             }
 
-            log.debug("{} words to filter out", counter);
+            log.debug("{} words to filter out", blockedWordSet.size());
 
         } catch (Exception e) {
             log.error("init()", e);
@@ -58,7 +54,7 @@ public class BlockedWordUtil {
 
     public String checkBlockedWords(String message) {
 
-        if(StringUtils.isEmpty(message)) {
+        if (StringUtils.isEmpty(message)) {
             return "input message can not be empty";
         }
 
@@ -66,13 +62,15 @@ public class BlockedWordUtil {
         message = message.toLowerCase().replaceAll("[^a-zA-Z]", "");
         String wordToCheck;
 
-        for(int start = 0; start < message.length(); start++) {
+        if (!blockedWordSet.isEmpty()) {
+            for (int start = 0; start < message.length(); start++) {
 
-            for(int offset = 1; offset < (message.length()+1 - start); offset++)  {
+                for (int offset = 1; offset < (message.length() + 1 - start); offset++) {
 
-                wordToCheck = message.substring(start, start + offset);
-                if(blockedWordSet.contains(wordToCheck)) {
-                    blockedWordsList.add(wordToCheck);
+                    wordToCheck = message.substring(start, start + offset);
+                    if (blockedWordSet.contains(wordToCheck)) {
+                        blockedWordsList.add(wordToCheck);
+                    }
                 }
             }
         }
